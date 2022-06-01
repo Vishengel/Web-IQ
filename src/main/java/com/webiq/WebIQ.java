@@ -11,7 +11,7 @@ public class WebIQ {
         WikiPage mainPage = scraper.generateWikiPageFromUrl(startingUrl);
         ArrayList<WikiPage> mainPageNeighbors = scraper.getNeighbors(mainPage);
         TFIDF tfidf = new TFIDF(mainPage, mainPageNeighbors);
-        tfidf.calculate_TFIDF();
+        tfidf.calculateTFIDF();
 
         for (String el : tfidf.getTfidfScores().keySet()) {
             System.out.println(el);
