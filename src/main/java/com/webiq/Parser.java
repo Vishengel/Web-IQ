@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class Parser {
 
     // Generates a Bag-of-Words model from the given Wikipedia page content
-    public static HashMap<String, Integer> getBagOfWords(String text) {
+    public static HashMap<String, Integer> getBagOfWordsFromString(String text) {
         text = cleanText(text);
         System.out.printf("Cleaned page content: %s\n", text);
 
