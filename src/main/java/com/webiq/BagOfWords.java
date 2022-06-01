@@ -2,15 +2,23 @@ package com.webiq;
 
 import java.util.HashMap;
 
-public class Parser {
+public class BagOfWords {
+    private final HashMap<String, Integer> bagOfWords;
+    private int nTokens;
 
-    // Generates a Bag-of-Words model from the given Wikipedia page content
-    public static HashMap<String, Integer> getBagOfWordsFromString(String text) {
+    public BagOfWords(String text) {
+        this.bagOfWords = getBagOfWordsFromString(text);
+    }
+
+    // Generates a Bag-of-Words model from the input string
+    public HashMap<String, Integer> getBagOfWordsFromString(String text) {
         text = cleanText(text);
-        System.out.printf("Cleaned page content: %s\n", text);
+        //System.out.printf("Cleaned page content: %s\n", text);
 
         HashMap<String, Integer> bagOfWords = new HashMap<>();
         String[] words = text.split("\\s+");
+        nTokens = words.length;
+
         int count;
 
         for (String word : words) {
@@ -25,11 +33,19 @@ public class Parser {
     /* Cleans the input text before generating the Bag-of-Words model
      by converting to lower case and removing all non-alphanumeric characters
     */
-    private static String cleanText(String text) {
+    private String cleanText(String text) {
         text = text.toLowerCase();
         // Use RegEx to remove all non-alphanumeric characters
         text = text.replaceAll("[^A-Za-z0-9 ]", "");
 
         return text;
+    }
+
+    public HashMap<String, Integer> getBagOfWords() {
+        return bagOfWords;
+    }
+
+    public int getNTokens() {
+        return nTokens;
     }
 }

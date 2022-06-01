@@ -1,38 +1,27 @@
 package com.webiq;
 
-import org.jsoup.nodes.Element;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class WikiPage {
     private final String url, title, content;
-    private HashMap<String, Integer> bagOfWords;
-    private ArrayList<String> hyperlinks;
+    private final BagOfWords bagOfWords;
+    private final ArrayList<String> hyperlinks;
 
     public WikiPage(String url, String title, String content, ArrayList<String> hyperlinks) {
         this.url = url;
         this.title = title;
         this.content = content;
+        this.bagOfWords = new BagOfWords(content);
         this.hyperlinks = hyperlinks;
-        generateBagOfWords();
     }
 
-    public HashMap<String, Integer> getBagOfWords() {
+    public BagOfWords getBagOfWords() {
         return bagOfWords;
-    }
-
-    public void generateBagOfWords() {
-        bagOfWords = Parser.getBagOfWordsFromString(content);
-        //System.out.println(bagOfWords);
     }
 
     public ArrayList<String> getHyperlinks() {
         return hyperlinks;
-    }
-
-    public void setHyperlinks(ArrayList<String> hyperlinks) {
-        this.hyperlinks = hyperlinks;
     }
 
     public void printHyperlinks() {

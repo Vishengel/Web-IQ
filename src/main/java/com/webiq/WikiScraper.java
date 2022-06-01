@@ -9,16 +9,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class WikiScraper {
-    public WikiScraper() {
-        System.out.println("Initializing scraper");
-    }
-
     /* Use Jsoup to retrieve the input Wikipedia page. Obtains the page's main text content + all hyperlinks and
      * creates a new WikiPage object with these elements */
-    public void scrapePage(String url) {
+    public WikiPage generateWikiPageFromUrl(String url) {
         Document doc;
-
-        System.out.printf("Scraping page %s\n", url);
 
         try {
             doc = Jsoup.connect(url).get();
@@ -29,10 +23,10 @@ public class WikiScraper {
         // Select the div tag containing the main text content of the page
         Elements text = doc.select("div[id=mw-content-text]");
         String content = text.text();
-        System.out.println(content);
+        //System.out.println(content);
 
-        WikiPage wp = new WikiPage(url, doc.title(), content, getHyperLinksFromPage(doc));
-        wp.printHyperlinks();
+        //wp.printHyperlinks();
+        return new WikiPage(url, doc.title(), content, getHyperLinksFromPage(doc));
     }
 
     // Scrape a given page to retrieve all links to other Wikipedia pages
@@ -44,10 +38,11 @@ public class WikiScraper {
          * (contains ':' after /wiki/); is not the main page of Wikipedia */
         String pattern = "https:\\/\\/en.wikipedia.org\\/wiki\\/(?!.*([:#]|\\bMain_Page\\b)).*";
 
-        System.out.printf("\nLinks: (%d)", links.size());
+        //System.out.printf("\nLinks: (%d)", links.size());
         for (Element link : links) {
             // Add link if it matches the pattern above and if it's not already in the list of hyperlinks
-            if (link.attr("abs:href").matches(pattern) && !hyperlinks.contains(link.attr("abs:href"))) {
+            if (link.attr("abs:href").matches(pattern)
+                    && !hyperlinks.contains(link.attr("abs:href"))) {
                 hyperlinks.add(link.attr("abs:href"));
             }
             //System.out.printf(" * a: <%s>  (%s) -", link.attr("abs:href"), link.text());
@@ -57,4 +52,13 @@ public class WikiScraper {
         return hyperlinks;
     }
 
+    public ArrayList<WikiPage> getNeighbors(WikiPage wp) {
+        ArrayList<WikiPage> neighbors = new ArrayList<>();
+
+        for (String link : wp.getHyperlinks()) {
+            neighbors.add(generateWikiPageFromUrl(link));
+        }
+
+        return neighbors;
+    }
 }
