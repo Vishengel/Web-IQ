@@ -24,7 +24,7 @@ public class TFIDF {
         for (String word : wp.getBagOfWords().getBagOfWords().keySet()) {
             tf = calculateTF(word);
             idf = calculateIDF(word);
-            System.out.printf("%s: %.5f\n", word, tf*idf);
+            //System.out.printf("%s: %.5f\n", word, tf*idf);
             unsortedTfidfScores.put(word, tf*idf);
         }
 
@@ -48,7 +48,7 @@ public class TFIDF {
     }
 
     private HashMap<String, Double> sortMapByValueDescending(HashMap<String, Double> hashMap) {
-        HashMap<String, Double> sortedHashMap = new LinkedHashMap<String, Double>();
+        HashMap<String, Double> sortedHashMap = new LinkedHashMap<>();
 
         hashMap.entrySet()
                 .stream()

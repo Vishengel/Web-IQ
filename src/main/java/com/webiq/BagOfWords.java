@@ -3,19 +3,23 @@ package com.webiq;
 import java.util.HashMap;
 
 public class BagOfWords {
-    private final HashMap<String, Integer> bagOfWords;
+    private HashMap<String, Integer> bagOfWords;
+    private HashMap<String, String> dictionary;
     private int nTokens;
 
-    public BagOfWords(String text) {
-        this.bagOfWords = getBagOfWordsFromString(text);
+    public BagOfWords(HashMap<String, Integer> bagOfWords, int nTokens) {
+        this.bagOfWords = bagOfWords;
+        this.nTokens = nTokens;
     }
 
     // Generates a Bag-of-Words model from the input string
     public HashMap<String, Integer> getBagOfWordsFromString(String text) {
-        text = cleanText(text);
+        //text = cleanText(text);
         //System.out.printf("Cleaned page content: %s\n", text);
 
-        HashMap<String, Integer> bagOfWords = new HashMap<>();
+        bagOfWords = new HashMap<>();
+        dictionary = new HashMap<>();
+
         String[] words = text.split("\\s+");
         nTokens = words.length;
 
@@ -23,8 +27,10 @@ public class BagOfWords {
 
         for (String word : words) {
             // System.out.println(word);
-            count = bagOfWords.getOrDefault(word, 0);
-            bagOfWords.put(word, count + 1);
+            String processedWord = cleanText(word);
+            count = bagOfWords.getOrDefault(processedWord , 0);
+            bagOfWords.put(processedWord , count + 1);
+            dictionary.put(processedWord, word);
         }
 
         return bagOfWords;
@@ -43,6 +49,10 @@ public class BagOfWords {
 
     public HashMap<String, Integer> getBagOfWords() {
         return bagOfWords;
+    }
+
+    public String getOriginalWord(String processedWord) {
+        return dictionary.get(processedWord);
     }
 
     public int getNTokens() {

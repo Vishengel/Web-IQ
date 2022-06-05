@@ -8,12 +8,14 @@ public class WikiPage {
     private final BagOfWords bagOfWords;
     private final ArrayList<String> hyperlinks;
 
-    public WikiPage(String url, String title, String content, ArrayList<String> hyperlinks) {
+    public WikiPage(String url, String title, String content, BagOfWords bagOfWords, ArrayList<String> hyperlinks) {
         this.url = url;
         this.title = title;
         this.content = content;
-        this.bagOfWords = new BagOfWords(content);
+        this.bagOfWords = bagOfWords;
         this.hyperlinks = hyperlinks;
+
+        //System.out.println(content);
     }
 
     public BagOfWords getBagOfWords() {
