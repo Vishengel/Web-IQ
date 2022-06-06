@@ -7,6 +7,8 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class WikiScraper {
     private final TextParser tp;
@@ -68,15 +70,21 @@ public class WikiScraper {
         return hyperlinks;
     }
 
-    public ArrayList<WikiPage> getNeighbors(WikiPage wp) {
+    public LinkedHashMap<String, WikiPage> getNeighbors(WikiPage wp, HashMap<String, WikiPage> corpus) {
         int count = 1;
-        ArrayList<WikiPage> neighbors = new ArrayList<>();
+        LinkedHashMap<String, WikiPage> neighbors = new LinkedHashMap<>();
+        WikiPage neighbor;
 
         for (String link : wp.getHyperlinks()) {
-            System.out.printf("Retrieving neighbor %s/%s\r", count, wp.getHyperlinks().size());
-            neighbors.add(generateWikiPageFromUrl(link));
+            System.out.printf("Parsing neighbor %s/%s of page %s\r", count, wp.getHyperlinks().size(), wp.getUrl());
+            // Don't bother generating a Wikipage for a page that is already in the corpus
+            if (!corpus.containsKey(link)) {
+                neighbor = generateWikiPageFromUrl(link);
+                neighbors.put(neighbor.getUrl(), neighbor);
+            }
             count++;
         }
+        System.out.println();
 
         return neighbors;
     }
