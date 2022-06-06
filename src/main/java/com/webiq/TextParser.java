@@ -26,23 +26,15 @@ public class TextParser {
 
     // Generates a Bag-of-Words model from the input string
     public BagOfWords getBagOfWordsFromString(String text) {
-        //text = cleanText(text);
-        //System.out.printf("Cleaned page content: %s\n", text);
-
         HashMap<String, Integer> bagOfWords = new HashMap<>();
+        String[] tokens = text.split("\\s+");
+        int nTokens = tokens.length, count;
 
-        String[] words = text.split("\\s+");
-        int nTokens = words.length;
-
-        int count;
-
-        for (String word : words) {
-            // System.out.println(word);
-            String processedWord = cleanText(word);
-            if (!stoplist.contains(word)) {
-                count = bagOfWords.getOrDefault(processedWord , 0);
-                bagOfWords.put(processedWord , count + 1);
-                //dictionary.put(processedWord, word);
+        for (String token : tokens) {
+            String processedToken = cleanText(token);
+            if (!stoplist.contains(token)) {
+                count = bagOfWords.getOrDefault(processedToken , 0);
+                bagOfWords.put(processedToken , count + 1);
             }
         }
 

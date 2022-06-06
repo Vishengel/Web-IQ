@@ -29,7 +29,7 @@ public class WikiScraper {
         }
 
         // Select the div tag containing the main text content of the page
-        Elements text = doc.select("div[id=mw-content-text]");
+        Elements mainTextContent = doc.select("div[id=mw-content-text]");
         // Remove the metadata tables ("This article has multiple issues", "This article needs to be updated" etc.)
         doc.select("table.metadata").remove();
         // Remove the IEEE-style citations (i.e. [12]) that occur in the text
@@ -39,10 +39,8 @@ public class WikiScraper {
         // Remove the [edit] buttons that occur after headlines
         doc.select("span.mw-editsection").remove();
 
-        String content = text.text();
-        //System.out.println(content);
+        String content = mainTextContent.text();
 
-        //wp.printHyperlinks();
         return new WikiPage(url, doc.title(), content, tp.getBagOfWordsFromString(content), getHyperLinksFromPage(doc));
     }
 
@@ -55,16 +53,12 @@ public class WikiScraper {
          * (i.e. does not contain a ':' after /wiki/); is not the main page of Wikipedia */
         String pattern = "https:\\/\\/en.wikipedia.org\\/wiki\\/(?!.*([:#]|\\bMain_Page\\b)).*";
 
-        //System.out.printf("\nLinks: (%d)", links.size());
         for (Element link : links) {
             // Add link if it matches the pattern above and if it's not already in the list of hyperlinks
             if (link.attr("abs:href").matches(pattern)
                     && !hyperlinks.contains(link.attr("abs:href"))) {
                 hyperlinks.add(link.attr("abs:href"));
-                //System.out.println(link.attr("abs:href"));
             }
-            //System.out.printf(" * a: <%s>  (%s) -", link.attr("abs:href"), link.text());
-            //System.out.printf("Match: %b\n", link.attr("abs:href").matches(pattern));
         }
 
         return hyperlinks;
