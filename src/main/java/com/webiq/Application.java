@@ -1,22 +1,28 @@
 package com.webiq;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-public class WebIQ {
+public class Application {
+    private int maxDepth, maxTimeInMins;
+    private WikiScraper scraper = new WikiScraper();
+    private WikiPage mainPage;
+    private LinkedHashMap<String, WikiPage> corpus = new LinkedHashMap<>();
+    private ArrayList<WikiPage> urlList;
 
-    public static void main(String[] args) {
-        String startingUrl = "https://en.wikipedia.org/wiki/Groningen";
-        int maxDepth = 2;
-
-        WikiScraper scraper = new WikiScraper();
-        WikiPage mainPage = scraper.generateWikiPageFromUrl(startingUrl);
-
-        LinkedHashMap<String, WikiPage> corpus = new LinkedHashMap<>();
-        ArrayList<WikiPage> urlList;
+    public Application(String startingUrl, int maxDepth, int maxTimeInMins) {
+        this.maxDepth = maxDepth;
+        this.maxTimeInMins = maxTimeInMins;
+        mainPage = scraper.generateWikiPageFromUrl(startingUrl);
         corpus.put(mainPage.getUrl(), mainPage);
+    }
 
+    public void runApplication() {
+        constructCorpus();
+        calculateTDIDF();
+    }
+
+    private void constructCorpus() {
         int start = 0, sizeBeforeExpansion;
 
         for (int depth = 1; depth <= maxDepth; depth++) {
@@ -34,7 +40,9 @@ public class WebIQ {
                 System.out.println(el.getUrl());
             }
         }
+    }
 
+    private void calculateTDIDF() {
         TFIDF tfidf = new TFIDF(mainPage, corpus);
         tfidf.calculateTFIDF();
 
@@ -43,8 +51,5 @@ public class WebIQ {
             System.out.println(el);
         }
         //System.out.println(tfidf.getTfidfScores());
-
-
     }
-
 }
