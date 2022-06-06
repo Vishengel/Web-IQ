@@ -8,10 +8,10 @@ import java.util.Map;
 
 public class TFIDF {
     private WikiPage wp;
-    private ArrayList<WikiPage> corpus;
+    private HashMap<String, WikiPage> corpus;
     private HashMap<String, Double> tfidfScores;
 
-    public TFIDF(WikiPage wp, ArrayList<WikiPage> corpus) {
+    public TFIDF(WikiPage wp, HashMap<String, WikiPage> corpus) {
         this.wp = wp;
         this.corpus = corpus;
         this.tfidfScores = new HashMap<>();
@@ -38,7 +38,7 @@ public class TFIDF {
     private double calculateIDF(String word) {
         int docOccurrences = 0;
 
-        for (WikiPage page : corpus) {
+        for (WikiPage page : corpus.values()) {
             if (page.getBagOfWords().getBagOfWords().containsKey(word)) {
                 docOccurrences++;
             }

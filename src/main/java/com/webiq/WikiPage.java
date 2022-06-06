@@ -18,6 +18,10 @@ public class WikiPage {
         //System.out.println(content);
     }
 
+    public String getUrl() {
+        return url;
+    }
+
     public BagOfWords getBagOfWords() {
         return bagOfWords;
     }
