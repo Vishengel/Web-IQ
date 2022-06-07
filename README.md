@@ -37,6 +37,6 @@ e.g.
 ```
      > java -jar target/WebIQ-1.0-SNAPSHOT-jar-with-dependencies.jar Elephant 2 5 25
 ```
-Prove the page title without the preceding url, i.e. the part that follows /wiki/. Replace spaces by an underscore, e.g. Open-source_intelligence.
+Provide the page title without the preceding url, i.e. the part that follows /wiki/. Replace spaces by an underscore, e.g. Open-source_intelligence.
 
 Running WebIQ-1.0-SNAPSHOT-jar-with-dependencies.jar without parameters will use "Open-source_intelligence 2 5 25" as default settings.
