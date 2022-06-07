@@ -1,6 +1,10 @@
 package com.webiq;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /* Class that handles the calculation and printing of the
 Term frequency–inverse document frequency scores of each word in the input page */
@@ -26,7 +30,7 @@ public class TFIDF {
             unsortedTfidfScores.put(token, tf*idf);
         }
 
-        // Sort the
+        // Sort the bag of words HashMap by TF-IDF score in descending order
         tfidfScores = sortHashmapByValueDescending(unsortedTfidfScores);
     }
 
