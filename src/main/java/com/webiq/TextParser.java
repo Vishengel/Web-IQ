@@ -1,24 +1,25 @@
 package com.webiq;
 
+import org.apache.commons.io.IOUtils;
+
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.HashMap;
 
 public class TextParser {
-    private final Path stoplistPath = Paths.get("src/main/resources/stoplist.txt");
     private List<String> stoplist;
 
     public TextParser() {
         readStoplist();
     }
 
+    // Read the list of stop words which is assumed to be in a file called stoplist.txt in the resources folder
     private void readStoplist() {
-        try {
-            stoplist = Files.readAllLines(stoplistPath, StandardCharsets.UTF_8);
+        try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("stoplist.txt")) {
+            assert inputStream != null;
+            stoplist = IOUtils.readLines(inputStream, StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
