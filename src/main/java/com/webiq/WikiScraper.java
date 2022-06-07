@@ -33,11 +33,14 @@ public class WikiScraper {
         // Remove the metadata tables ("This article has multiple issues", "This article needs to be updated" etc.)
         doc.select("table.metadata").remove();
         // Remove the IEEE-style citations (i.e. [12]) that occur in the text
-        doc.select("class.reference").remove();
+        doc.select("sup.reference").remove();
         // Remove the list of references, as these tend to muddle the results
         doc.select("div.reflist").remove();
         // Remove the [edit] buttons that occur after headlines
         doc.select("span.mw-editsection").remove();
+        /* Remove access dates that come with citations and references, since they tend to end up in the results,
+         * as multiple refs tend to have the same access date, which provides no semantic information on the page subject */
+        doc.select("span.reference-accessdate").remove();
 
         String content = mainTextContent.text();
 
@@ -64,6 +67,9 @@ public class WikiScraper {
         return hyperlinks;
     }
 
+    /* Takes a Wikipage object and a corpus HashMap as inputs. Returns a LinkedHashMap of "neighbors" of the input
+     * Wikipage, i.e. all other English-language Wikipedia pages the input pages links to. The corpus is used to prevent
+     * the method from generating Wikipage objects that are already part of the corpus */
     public LinkedHashMap<String, WikiPage> getNeighbors(WikiPage wp, HashMap<String, WikiPage> corpus) {
         int count = 1;
         LinkedHashMap<String, WikiPage> neighbors = new LinkedHashMap<>();

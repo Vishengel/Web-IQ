@@ -14,10 +14,10 @@ public class WebIQMain {
             maxTimeInMinutes = Integer.parseInt(args[2]);
             nTopResults = Integer.parseInt(args[3]);
         } else {
-            startingUrl = "https://en.wikipedia.org/wiki/Amsterdam";
+            startingUrl = "https://en.wikipedia.org/wiki/Open-source_intelligence";
             maxDepth = 1;
             maxTimeInMinutes = 5;
-            nTopResults = 50;
+            nTopResults = 25;
         }
 
         Application app = new Application(startingUrl, maxDepth, maxTimeInMinutes, nTopResults);

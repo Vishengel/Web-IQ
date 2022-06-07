@@ -27,6 +27,7 @@ public class WikiPage {
         return hyperlinks;
     }
 
+    // Below are some unused print methods
     public void printHyperlinks() {
         for (String link : hyperlinks) {
             System.out.println(link);

@@ -34,6 +34,8 @@ public class Application {
      * for each Wikipedia page that is linked to from each page added at depth 1, etc.
      * Stops when either the maximum depth or the time limit provided has been reached */
     private void constructCorpus() {
+        /* These to ints are used to make sure that at each iteration of the main for-loop, only neighbors are retrieved
+         * of pages that were added in the previous iteration */
         int start = 0, sizeBeforeExpansion;
         long startTime = System.currentTimeMillis();
         ArrayList<WikiPage> pageList;
@@ -51,7 +53,7 @@ public class Application {
                             "Starting calculation of most important words.");
                     return;
                 }
-
+                // Retrieve all neighbors of the current page and add them to the corpus
                 corpus.putAll(scraper.getNeighbors(pageList.get(idx), corpus));
             }
 
