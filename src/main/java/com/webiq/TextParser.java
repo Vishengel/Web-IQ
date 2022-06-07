@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.HashMap;
 
 public class TextParser {
+    // A list of very common words in the English language that we don't want to have in our results
     private List<String> stoplist;
 
     public TextParser() {
