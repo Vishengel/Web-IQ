@@ -25,10 +25,11 @@ public class TextParser {
             throw new RuntimeException(e);
         }
     }
-
+    // ToDo: this TF-IDF-based method only uses unigrams (e.g. single tokens). This does not take into account that some tokens semantically belong together, e.g. "Open-source intelligence".
     // Generates a Bag-of-Words model from the input string
     public BagOfWords getBagOfWordsFromString(String text) {
         HashMap<String, Integer> bagOfWords = new HashMap<>();
+        // Cut the input text into tokens by splitting on whitespace characters
         String[] tokens = text.split("\\s+");
         int nTokens = tokens.length, count;
 
@@ -42,13 +43,13 @@ public class TextParser {
 
         return new BagOfWords(bagOfWords, nTokens);
     }
-
+    // ToDo: cleaner results could be obtained by using a stemmer or a lemmatizer to group derivations of the same token together (e.g. car, cars, and car's)
     /* Cleans the input text converting to lower case and removing all non-alphanumeric characters at
-     * the beginning or the end of a word */
+     * the beginning or the end of a word. This keeps tokens such as 9/11 or open-source intact. */
     private String cleanText(String text) {
         text = text.toLowerCase();
-        // Use RegEx to remove all non-alphanumeric characters
-        //text = text.replaceAll("[^A-Za-z0-9 ]", "");
+        /* Use RegEx to remove all non-alphanumeric characters at
+         * the beginning or the end of a word */
         text = text.replaceAll("(^[^\\w]+)|([^\\w]+$)", "");
 
         return text;

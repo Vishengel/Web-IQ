@@ -24,7 +24,7 @@ public class CorpusConstructor {
     public LinkedHashMap<String, WikiPage> constructCorpus() {
         /* These two ints are used to make sure that at each iteration of the main for-loop,
          * only the neighbors are retrieved of pages that were added in the previous iteration */
-        int start = 0, sizeBeforeExpansion;
+        int startingIdx = 0, sizeBeforeExpansion;
         long startTime = System.currentTimeMillis();
         ArrayList<WikiPage> pageList;
 
@@ -35,7 +35,8 @@ public class CorpusConstructor {
             pageList = new ArrayList<>(corpus.values());
             sizeBeforeExpansion = corpus.size();
 
-            for (int idx = start; idx < sizeBeforeExpansion; idx++) {
+            for (int idx = startingIdx; idx < sizeBeforeExpansion; idx++) {
+                // ToDo: this methods of timing is not very precise, as the getNeighbors() method can run for some time depending of the amount of pages to parse
                 /* Stop corpus construction of the max time limit has been reached. It gets called once per loop,
                  * so the method only returns after all neighbors from the previous iteration have been added */
                 if ((System.currentTimeMillis() - startTime) > maxTimeInMillis) {
@@ -47,7 +48,7 @@ public class CorpusConstructor {
                 corpus.putAll(scraper.getNeighbors(pageList.get(idx), corpus));
             }
 
-            start = sizeBeforeExpansion;
+            startingIdx = sizeBeforeExpansion;
         }
         // If we reach this part, we've parsed all pages up until the maximum depth
         System.out.println("Max distance from starting page for corpus construction reached. " +
