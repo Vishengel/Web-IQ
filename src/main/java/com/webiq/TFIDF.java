@@ -1,17 +1,14 @@
 package com.webiq;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class TFIDF {
-    private WikiPage wp;
-    private HashMap<String, WikiPage> corpus;
+    private final WikiPage startingPage;
+    private final HashMap<String, WikiPage> corpus;
     private HashMap<String, Double> tfidfScores;
 
-    public TFIDF(WikiPage wp, HashMap<String, WikiPage> corpus) {
-        this.wp = wp;
+    public TFIDF(WikiPage startingPage, HashMap<String, WikiPage> corpus) {
+        this.startingPage = startingPage;
         this.corpus = corpus;
         this.tfidfScores = new HashMap<>();
     }
@@ -20,10 +17,9 @@ public class TFIDF {
         double tf, idf;
         HashMap<String, Double> unsortedTfidfScores = new HashMap<>();
 
-        for (String word : wp.getBagOfWords().getBagOfWords().keySet()) {
+        for (String word : startingPage.getBagOfWords().getBagOfWords().keySet()) {
             tf = calculateTF(word);
             idf = calculateIDF(word);
-            //System.out.printf("%s: %.5f\n", word, tf*idf);
             unsortedTfidfScores.put(word, tf*idf);
         }
 
@@ -31,7 +27,7 @@ public class TFIDF {
     }
 
     private double calculateTF(String word) {
-        return (double) wp.getBagOfWords().getBagOfWords().get(word) / (double) wp.getBagOfWords().getNTokens();
+        return (double) startingPage.getBagOfWords().getBagOfWords().get(word) / (double) startingPage.getBagOfWords().getNTokens();
     }
 
     private double calculateIDF(String word) {
@@ -59,5 +55,14 @@ public class TFIDF {
 
     public HashMap<String, Double> getTfidfScores() {
         return tfidfScores;
+    }
+
+    public void printNTopResults(int nTopResults) {
+        List<String> nTopResultsList = tfidfScores.keySet().stream().limit(nTopResults).toList();
+        int count = 1;
+
+        for (String el : nTopResultsList) {
+            System.out.printf("%d: %s\n",count++, el);
+        }
     }
 }

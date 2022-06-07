@@ -6,6 +6,8 @@ public class WebIQMain {
         String startingUrl;
         int maxDepth, maxTimeInMinutes, nTopResults;
 
+        /* Read the input page, the maximum number of steps, the maximum runtime and the amount of results to display
+         * from the input arguments if possible, otherwise use the default settings */
         if (args.length == 4) {
             startingUrl = "https://en.wikipedia.org/wiki/" + args[0];
             maxDepth = Integer.parseInt(args[1]);

@@ -21,7 +21,7 @@ public class WikiScraper {
      * creates a new WikiPage object with these elements */
     public WikiPage generateWikiPageFromUrl(String url) {
         Document doc;
-
+        // ToDo: an external library (JSoup) is used for HTML parsing
         try {
             doc = Jsoup.connect(url).get();
         } catch (IOException e) {
