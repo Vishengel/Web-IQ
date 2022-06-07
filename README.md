@@ -35,7 +35,7 @@ Then:
 ```
 e.g.
 ```
-     > java -jar target/WebIQ-1.0-SNAPSHOT-jar-with-dependencies.jar Elephant 2 5 25
+     > java -jar target/WebIQ-1.0-SNAPSHOT-jar-with-dependencies.jar Elephant 2 10 50
 ```
 Provide the page title without the preceding url, i.e. the part that follows /wiki/. Replace spaces by an underscore, e.g. Open-source_intelligence.
 
