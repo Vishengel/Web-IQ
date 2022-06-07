@@ -20,6 +20,8 @@ public class WebIQMain {
             nTopResults = 25;
         }
 
+        System.out.printf("Finding the %d most relevant words on the Wikipedia page %s according to their TF-IDF scores\n"
+                , nTopResults, inputUrl);
         Application app = new Application(inputUrl, maxDepth, maxTimeInMinutes, nTopResults);
         app.runApplication();
     }
