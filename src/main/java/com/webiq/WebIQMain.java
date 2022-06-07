@@ -6,6 +6,7 @@ public class WebIQMain {
         String inputUrl;
         int maxDepth, maxTimeInMinutes, nTopResults;
 
+        // ToDo: not the neatest way of handling CLI arguments, but works for the purposes of this program
         /* Read the input page, the maximum number of steps, the maximum runtime in minutes and the amount
          * of results to display from the input arguments if possible, otherwise use the default settings */
         if (args.length == 4) {
