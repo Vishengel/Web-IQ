@@ -18,7 +18,7 @@ Here, _N_ is the total number of documents in _D_. $|\\{d \in D : t \in D \\}|$ 
 The highest-ranking tokens based on their TF-IDF score are then printed.
 
 ## Running the program 
-* Clone this repository:
+Clone this repository:
 ```
     $ git clone https://github.com/Vishengel/Web-IQ.git
 ```
