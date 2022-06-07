@@ -1,7 +1,6 @@
 package com.webiq;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class WikiPage {
     private final String url, title, content;
@@ -14,8 +13,6 @@ public class WikiPage {
         this.content = content;
         this.bagOfWords = bagOfWords;
         this.hyperlinks = hyperlinks;
-
-        //System.out.println(content);
     }
 
     public String getUrl() {
@@ -30,6 +27,7 @@ public class WikiPage {
         return hyperlinks;
     }
 
+    // Below are some unused print methods
     public void printHyperlinks() {
         for (String link : hyperlinks) {
             System.out.println(link);

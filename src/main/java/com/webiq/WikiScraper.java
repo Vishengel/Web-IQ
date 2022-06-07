@@ -21,7 +21,7 @@ public class WikiScraper {
      * creates a new WikiPage object with these elements */
     public WikiPage generateWikiPageFromUrl(String url) {
         Document doc;
-
+        // ToDo: an external library (JSoup) is used for HTML parsing
         try {
             doc = Jsoup.connect(url).get();
         } catch (IOException e) {
@@ -29,20 +29,21 @@ public class WikiScraper {
         }
 
         // Select the div tag containing the main text content of the page
-        Elements text = doc.select("div[id=mw-content-text]");
+        Elements mainTextContent = doc.select("div[id=mw-content-text]");
         // Remove the metadata tables ("This article has multiple issues", "This article needs to be updated" etc.)
         doc.select("table.metadata").remove();
         // Remove the IEEE-style citations (i.e. [12]) that occur in the text
-        doc.select("class.reference").remove();
+        doc.select("sup.reference").remove();
         // Remove the list of references, as these tend to muddle the results
         doc.select("div.reflist").remove();
         // Remove the [edit] buttons that occur after headlines
         doc.select("span.mw-editsection").remove();
+        /* Remove access dates that come with citations and references, since they tend to end up in the results,
+         * as multiple refs tend to have the same access date, which provides no semantic information on the page subject */
+        doc.select("span.reference-accessdate").remove();
 
-        String content = text.text();
-        //System.out.println(content);
+        String content = mainTextContent.text();
 
-        //wp.printHyperlinks();
         return new WikiPage(url, doc.title(), content, tp.getBagOfWordsFromString(content), getHyperLinksFromPage(doc));
     }
 
@@ -52,24 +53,23 @@ public class WikiScraper {
         Elements links = doc.select("a[href]");
         /* We keep hyperlinks that match the following criteria: links to another English wiki article;
          * does not link to the same page (contains '#' after /wiki/); does not link to a meta-page such as a Talk page
-         * (contains ':' after /wiki/); is not the main page of Wikipedia */
+         * (i.e. does not contain a ':' after /wiki/); is not the main page of Wikipedia */
         String pattern = "https:\\/\\/en.wikipedia.org\\/wiki\\/(?!.*([:#]|\\bMain_Page\\b)).*";
 
-        //System.out.printf("\nLinks: (%d)", links.size());
         for (Element link : links) {
             // Add link if it matches the pattern above and if it's not already in the list of hyperlinks
             if (link.attr("abs:href").matches(pattern)
                     && !hyperlinks.contains(link.attr("abs:href"))) {
                 hyperlinks.add(link.attr("abs:href"));
-                //System.out.println(link.attr("abs:href"));
             }
-            //System.out.printf(" * a: <%s>  (%s) -", link.attr("abs:href"), link.text());
-            //System.out.printf("Match: %b\n", link.attr("abs:href").matches(pattern));
         }
 
         return hyperlinks;
     }
 
+    /* Takes a Wikipage object and a corpus HashMap as inputs. Returns a LinkedHashMap of "neighbors" of the input
+     * Wikipage, i.e. all other English-language Wikipedia pages the input pages links to. The corpus is used to prevent
+     * the method from generating Wikipage objects that are already part of the corpus */
     public LinkedHashMap<String, WikiPage> getNeighbors(WikiPage wp, HashMap<String, WikiPage> corpus) {
         int count = 1;
         LinkedHashMap<String, WikiPage> neighbors = new LinkedHashMap<>();
