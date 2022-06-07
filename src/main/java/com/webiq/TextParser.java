@@ -41,7 +41,8 @@ public class TextParser {
         return new BagOfWords(bagOfWords, nTokens);
     }
 
-    // Cleans the input text converting to lower case and removing all non-alphanumeric characters
+    /* Cleans the input text converting to lower case and removing all non-alphanumeric characters at
+     * the beginning or the end of a word */
     private String cleanText(String text) {
         text = text.toLowerCase();
         // Use RegEx to remove all non-alphanumeric characters
