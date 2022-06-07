@@ -1,5 +1,6 @@
 package com.webiq;
 
+// Class in charge of handling the main program flow
 public class Application {
     private final int nTopResults;
     private final CorpusConstructor corpusConstructor;

@@ -3,8 +3,8 @@ package com.webiq;
 public class WebIQMain {
 
     public static void main(String[] args) {
-        String inputUrl;
-        int maxDepth, maxTimeInMinutes, nTopResults;
+        String inputUrl = "https://en.wikipedia.org/wiki/Open-source_intelligence";
+        int maxDepth = 2, maxTimeInMinutes = 5, nTopResults = 25;
 
         // ToDo: not the neatest way of handling CLI arguments, but works for the purposes of this program
         /* Read the input page, the maximum number of steps, the maximum runtime in minutes and the amount
@@ -14,11 +14,6 @@ public class WebIQMain {
             maxDepth = Integer.parseInt(args[1]);
             maxTimeInMinutes = Integer.parseInt(args[2]);
             nTopResults = Integer.parseInt(args[3]);
-        } else {
-            inputUrl = "https://en.wikipedia.org/wiki/Open-source_intelligence";
-            maxDepth = 2;
-            maxTimeInMinutes = 5;
-            nTopResults = 25;
         }
 
         System.out.printf("Finding the %d most relevant words on the Wikipedia page %s according to their TF-IDF scores\n"
