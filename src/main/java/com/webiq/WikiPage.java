@@ -2,6 +2,9 @@ package com.webiq;
 
 import java.util.ArrayList;
 
+/* Class to store all relevant info of a Wikipedia page: its url, the page title, the main text content,
+ * the bag of words model created from the text content, and a list of links to other Wikipedia pages that occur
+ * on this particular page */
 public class WikiPage {
     private final String url, title, content;
     private final BagOfWords bagOfWords;

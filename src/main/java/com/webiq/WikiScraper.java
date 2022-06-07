@@ -38,8 +38,8 @@ public class WikiScraper {
         doc.select("div.reflist").remove();
         // Remove the [edit] buttons that occur after headlines
         doc.select("span.mw-editsection").remove();
-        /* Remove access dates that come with citations and references, since they tend to end up in the results,
-         * as multiple refs tend to have the same access date, which provides no semantic information on the page subject */
+        /* Remove access dates that come with citations and references, since they tend to end up in the results:
+         * multiple refs tend to have the same access date, which provides no semantic information on the page subject */
         doc.select("span.reference-accessdate").remove();
 
         String content = mainTextContent.text();
